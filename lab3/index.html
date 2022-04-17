@@ -1,0 +1,74 @@
+ <!DOCTYPE html>
+<head>
+    <meta name="MobileOptimized" content="width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name = "format-detection" content = "telephone=no">
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <!-- bootstrap 4 js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script> 
+    <!-- bootstrap 4 css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <title>lab3Form</title>
+</head>
+<body style="background-color:lightgray;">
+    <div class="container">
+        <form class="col-md-6 col-xs-12 col-sm-6" action="index.php" method="post"> 
+         <legend>Форма для заполнения</legend>
+
+         <div class="js-form-wrapper form-wrapper">
+            <div class="form-item js-form-item">
+                <div>
+                    <input id="firstname" name="firstname" class="form-control" type="text" value="" size="60" maxlength="255" placeholder="Ваше имя" required />
+                   </div> 
+            </div>
+         </div>
+
+
+            <div class="js-form-wrapper form-wrapper">
+                <div class="form-item js-form-item">
+                <div>
+                 <input type="email" id="email" name="email" class="form-control" type="text" value="" size="60" maxlength="255" placeholder="Email" required />
+            </div> 
+           </div>
+            </div>
+            <div>
+                <label for="date">Дата рождения: </label>
+                <input type="date" id="date" name="date"/>
+            </div>
+
+
+            <div>
+                <p>Пол:</p>
+                <div><input type="radio" name="gender"> Мужской<div>
+                <div><input type="radio" name="gender"> Женский</div>
+            </div>
+        
+            <div>
+                <p>Количество конечностей</p>
+                <p><input type="radio" name="limbs"> 1 <input type="radio" name="limbs"> 2 <input type="radio" name="limbs"> 3</p>
+            </div>
+            <div>
+                <p>Сверхспособности:</p>
+                <select>
+                    <option name="ability">Бессмертие</option>
+                    <option name="ability">Прохождение сквозь стены</option>
+                    <option name="ability" >Левитация</option>
+            </div>
+                </select>
+                <p>Биография</p>
+                <p><textarea name="comment"></textarea></p>
+
+                
+            <div class="form-check">
+                <p>С контрактом ознакомлен(a)</p> 
+                 <input type="checkbox" id="exampleCheck1">
+                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> 
+            <p>
+                <button type="submit">Отправить</button>
+            </p>           
+        </form>
+    </div>
+</body>
+</html>
