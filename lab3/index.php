@@ -1,73 +1,40 @@
 <?php
-// Отправляем браузеру правильную кодировку,
-// файл index.php должен быть в кодировке UTF-8 без BOM.
-header('Content-Type: text/html; charset=UTF-8');
-
-// В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
-// и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  // В суперглобальном массиве $_GET PHP хранит все параметры, переданные в текущем запросе через URL.
-  if (!empty($_GET['save'])) {
-    // Если есть параметр save, то выводим сообщение пользователю.
-    print('Спасибо, результаты сохранены.');
-  }
-  // Включаем содержимое файла form.php.
-  include('form.php');
-  // Завершаем работу скрипта.
-  exit();
-}
-// Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
-
-// Проверяем ошибки.
-$errors = FALSE;
-if (empty($_POST['fio'])) {
-  print('Заполните имя.<br/>');
-  $errors = TRUE;
-}
-
-// *************
-// Тут необходимо проверить правильность заполнения всех остальных полей.
-// *************
-
-if ($errors) {
-  // При наличии ошибок завершаем работу скрипта.
-  exit();
-}
-
-// Сохранение в базу данных.
-
-$user = 'db';
-$pass = '123';
-$db = new PDO('mysql:host=localhost;dbname=test', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-
-// Подготовленный запрос. Не именованные метки.
-try {
-  $stmt = $db->prepare("INSERT INTO application (name) SET name = ?");
-  $stmt -> execute(array('fio'));
-}
-catch(PDOException $e){
-  print('Error : ' . $e->getMessage());
-  exit();
-}
-
-//  stmt - это "дескриптор состояния".
- 
-//  Именованные метки.
-//$stmt = $db->prepare("INSERT INTO test (label,color) VALUES (:label,:color)");
-//$stmt -> execute(array('label'=>'perfect', 'color'=>'green'));
- 
-//Еще вариант
-/*$stmt = $db->prepare("INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)");
-$stmt->bindParam(':firstname', $firstname);
-$stmt->bindParam(':lastname', $lastname);
-$stmt->bindParam(':email', $email);
-$firstname = "John";
-$lastname = "Smith";
-$email = "john@test.com";
-$stmt->execute();
-*/
-
-// Делаем перенаправление.
-// Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
-// Если ошибок при этом не видно, то необходимо настроить параметр display_errors для PHP.
-header('Location: ?save=1');
+    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['date']) && isset($_POST['gender']) && isset($_POST['limbs']) && isset($_POST['ability'])){
+        // Переменные с формы
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $date = $_POST['date'];
+        $ability = $_POST['ability'];
+        $gender = $_POST['gender'];
+        $limbs = $_POST['limbs'];
+        
+        // Параметры для подключения
+        $db_host = "localhost";
+        $db_user = "u47651"; // Логин БД
+        $db_password = "5455315"; // Пароль БД
+        $db_base = 'u47651'; // Имя БД
+        $db_table = "APPLICATION"; // Имя Таблицы БД
+        
+        try {
+            // Подключение к базе данных
+            $db = new PDO("mysql:host=$db_host;dbname=$db_base", $db_user, $db_password);
+            // Устанавливаем корректную кодировку
+            $db->exec("set names utf8");
+            // Собираем данные для запроса
+            $data = array( 'name' => $name, 'email' => $email, 'date' => $date, 'gender' => $gender, 'limbs' => $limbs, 'ability' => $ability );
+            // Подготавливаем SQL-запрос
+            $query = $db->prepare("INSERT INTO $db_table (name, email, date, gender, limbs, ability) values (:name, :email, :date, :gender, :limbs, :ability )");
+            // Выполняем запрос с данными
+            $query->execute($data);
+            // Запишим в переменую, что запрос отрабтал
+            $result = true;
+        } catch (PDOException $e) {
+            // Если есть ошибка соединения или выполнения запроса, выводим её
+            print "Ошибка!: " . $e->getMessage() . "<br/>";
+        }
+        
+        if ($result) {
+            echo "Успех. Информация занесена в базу данных";
+        }
+    }
+?>
